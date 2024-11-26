@@ -57,7 +57,7 @@ const Header = () => {
                 firstName: (e.target as HTMLFormElement).username.value,
                 lastName: (e.target as HTMLFormElement).username.value
             }
-            fetching.post('/register', data).then(res => {
+            fetching.post('/register', data).then(() => {
                 setSaveEmail(data.email)
                 setSelectedAuth('verify')
             });
