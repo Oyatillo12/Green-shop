@@ -47,6 +47,7 @@ const Header = () => {
             isActive: pathname == "/blogs"
         }
     ]
+    const fetching = useAxios();
     const handleSubmit = (e: React.MouseEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (selectedAuth === "register") {
@@ -56,19 +57,19 @@ const Header = () => {
                 firstName: (e.target as HTMLFormElement).username.value,
                 lastName: (e.target as HTMLFormElement).username.value
             }
-            useAxios().post('/register', data).then(res => {
+            fetching.post('/register', data).then(res => {
                 setSaveEmail(data.email)
                 setSelectedAuth('verify')
             });
         }
         else if (selectedAuth === "verify") {
-            useAxios().post('/users/verify', {}, {
+            fetching.post('/users/verify', {}, {
                 params: { email: saveEmail, code: verifyValue }
             }).then(res => console.log(res));
         }
         else {
             const data = {usernameoremail:(e.target as HTMLFormElement).email.value, password:(e.target as HTMLFormElement).password.value}
-            useAxios().post('/users/verify', data).then(res => console.log(res));
+            fetching.post('/users/verify', data).then(res => console.log(res));
         }
     }
 
