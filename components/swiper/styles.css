@@ -1,0 +1,40 @@
+.swiper {
+  width: 100%;
+  height: 450px;
+  background: #000;
+}
+
+.swiper-slide {
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 40px 60px;
+}
+
+.parallax-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: linear-gradient(97.77deg, rgba(245, 245, 245, 0.7) -20.46%, rgba(245, 245, 245, 0.9) 20.51%);
+  height: 100%;
+  width: 130%;
+}
+
+.swiper-slide .title {
+  font-size: 41px;
+  font-weight: 300;
+}
+
+.swiper-slide .subtitle {
+  font-size: 21px;
+}
+
+.swiper-slide .text {
+  font-size: 14px;
+  max-width: 400px;
+  line-height: 1.3;
+}
