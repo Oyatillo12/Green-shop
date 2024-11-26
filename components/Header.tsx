@@ -79,7 +79,7 @@ const Header = () => {
                 <nav className='flex items-center justify-center gap-[50px]'>
                     {navList.map((item: NavListType) => (
                         <Link className={`text-[16px] relative leading-5 text-[#3D3D3D] before:h-[3px] before:absolute before:w-full before:bg-[#46A358] before:bottom-[-30px] before:duration-500 duration-200 ${item.isActive ? "before:scale-1 font-bold" : "before:scale-0"} `} key={item.id} href={item.href}>{item.title}</Link>
-                    ))};
+                    ))}
                 </nav>
                 <div className='flex items-center justify-center gap-[30px]'>
                     <Image priority style={{ width: "20px", height: "20px" }} alt='Search img' src={'search-img.svg'} width={20} height={20} />
