@@ -1,8 +1,8 @@
 "use client"
 
-import React, { SetStateAction, useContext } from 'react';
 
-// "@ts-expect-error"
+import React, { SetStateAction, useContext } from 'react'
+// @ts-ignore
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
 import "./style.css";
