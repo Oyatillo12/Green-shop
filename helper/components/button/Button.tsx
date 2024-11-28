@@ -1,9 +1,10 @@
 "use client"
 
 import React, { ReactNode } from 'react'
+import './style.css';
 
 type Buttontype = {
-  title: string,
+  title: string | ReactNode ,
   extraStyle: string,
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void,
   type: "submit" | "button" | "reset",
@@ -13,7 +14,7 @@ type Buttontype = {
 
 const Button: React.FC<Buttontype> = ({ title, extraStyle, onClick, type, leftIcon, rightIcon }) => {
   return (
-    <button type={type} onClick={onClick} className={`py-2 ${extraStyle} bg-[#46A358] text-white font-medium text-[16px] border-[#46A358] border hover:bg-transparent hover:text-[#46A358] duration-300 flex items-center justify-center gap-2 leading-5 rounded-md`}>
+    <button type={type} onClick={onClick} className={`public-button ${extraStyle}`}>
       {leftIcon && leftIcon}
       {title}
       {rightIcon && rightIcon}

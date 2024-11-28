@@ -11,20 +11,24 @@ import 'swiper/css/navigation';
 import './styles.css';
 
 // import Swiper core and required modules
-import { Pagination } from 'swiper/modules';
-import Button from '../Button';
+import { Pagination, Autoplay } from 'swiper/modules';
+import Button from '../../helper/components/button/Button';
 import Image from 'next/image';
 
 export default function SwiperCustom() {
   return (
     <>
       <Swiper
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+        }}
         speed={600}
         parallax={true}
         pagination={{
           clickable: true,
         }}
-        modules={[Pagination,]}
+        modules={[Pagination, Autoplay]}
         className="mySwiper"
       >
         <div
@@ -48,7 +52,7 @@ export default function SwiperCustom() {
               <Button type='button' title='SHOP NOW' extraStyle='w-[140px] !py-[10px]' onClick={() => { }} />
             </div>
           </div>
-          <Image width={518} height={518} src={ProductImg} alt='Product img'/>
+          <Image priority width={518} height={518} src={ProductImg} alt='Product img' />
         </SwiperSlide>
         <SwiperSlide >
           <div className='!w-[530px] '>
@@ -66,7 +70,7 @@ export default function SwiperCustom() {
               <Button type='button' title='SHOP NOW' extraStyle='w-[140px] !py-[10px]' onClick={() => { }} />
             </div>
           </div>
-          <Image width={518} height={518} src={ProductImg} alt='Product img'/>
+          <Image priority width={518} height={518} src={ProductImg} alt='Product img' />
         </SwiperSlide>
         <SwiperSlide >
           <div className='!w-[530px] '>
@@ -84,7 +88,7 @@ export default function SwiperCustom() {
               <Button type='button' title='SHOP NOW' extraStyle='w-[140px] !py-[10px]' onClick={() => { }} />
             </div>
           </div>
-          <Image width={518} height={518} src={ProductImg} alt='Product img'/>
+          <Image priority width={518} height={518} src={ProductImg} alt='Product img' />
         </SwiperSlide>
       </Swiper>
     </>

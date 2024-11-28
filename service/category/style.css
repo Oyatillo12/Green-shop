@@ -1,0 +1,21 @@
+.category{
+    width: 25%;
+    background-color: #FBFBFB;
+    padding: 16px;
+}
+
+.category-list{
+    margin-top: 10px;
+    padding-left: 12px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.category-item {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
