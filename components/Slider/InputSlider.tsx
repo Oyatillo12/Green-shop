@@ -2,16 +2,15 @@
 
 
 import React, { SetStateAction, useContext } from 'react'
-// @ts-ignore @ts-expect-error
+// @ts-ignore  @ts-expect-error  
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
 import "./style.css";
 import { Context } from '@/context/FilterContext';
 
 type RangeType = {
-    value: number[],
-    setValue: React.Dispatch<SetStateAction<number[]>>,
-  
+    value:number[] | [number | number],
+    setValue: React.Dispatch<SetStateAction<number | number[]>>,
 }
 const InputSlider:React.FC<RangeType> = ({value, setValue}) => {
     const {prductsPrice} = useContext(Context)
