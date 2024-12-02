@@ -44,7 +44,7 @@ const FooterBottom = () => {
     ]
 
     return (
-        <div className="container px-4 py-8 md:py-7">
+        <div className="px-4 py-8 md:py-7">
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4">
                 {footerSections.map((section) => (
                     <div key={section.title} className="space-y-4">

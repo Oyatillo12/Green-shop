@@ -7,9 +7,11 @@ import { ProductType } from '@/service/products/Products'
 import { QueryClient, useMutation, useQueryClient } from '@tanstack/react-query';
 import { message } from 'antd';
 import Image from 'next/image'
+import { useRouter } from 'next/navigation';
 import React, { useContext, useState } from 'react'
 
 const ProductItem: React.FC<{ product: ProductType }> = ({ product }) => {
+    const router = useRouter();
     const [hover, setHover] = useState<boolean>(false);
     const [messageApi, contextHolder] = message.useMessage();
     const { accessToken } = useContext(Context)
@@ -50,7 +52,7 @@ const ProductItem: React.FC<{ product: ProductType }> = ({ product }) => {
         <>
             {contextHolder}
             <div onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} className='w-[250px] relative' >
-                <div style={{ backgroundColor: "#FBFBFB", }}>
+                <div onClick={() => router.push(`/shop/${product.product_id}`)} style={{ backgroundColor: "#FBFBFB", }}>
                     <Image priority style={{ width: "250px", height: "250px", objectFit:"cover" }} src={product.image_url ? product.image_url[0] : "/logo.svg"} alt={product.product_name ? product.product_name : "product img"} width={250} height={250} />
                 </div>
                 <h3 className='mt-[12px] pl-4 text-[16px] text-[#3D3D3D]'>{product.product_name}</h3>

@@ -56,7 +56,7 @@ export default function SwiperCustom() {
         </SwiperSlide>
         <SwiperSlide >
           <div className='!w-[530px] '>
-            <p className="text-[14px] text-[#3D3D3D] mb-[7px] tracking-[10%] leading-4 font-medium" data-swiper-parallax="-300">
+            <p className="text-[14px] text-[#3D3D3D] mb-[7px] tracking-[10%] leading-4 font-medium uppercase" data-swiper-parallax="-300">
               Welcome to GreenShop
             </p>
             <h2 className="font-extrabold text-[60px] leading-[60px] text-[#3D3D3D] mb-[5px]" data-swiper-parallax="-200">

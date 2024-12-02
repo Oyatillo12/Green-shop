@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import Header from "@/components/header/Header";
 import Providers from "@/react-query/QueryProvider";
 import { ContextProvider } from "@/context/FilterContext";
-import Footer from "@/components/footer/Footer";
+import { lazy } from "react";
+
+const Header = lazy(() => import("@/components/header/Header"))
+const Footer = lazy(() => import("@/components/footer/Footer"))
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",

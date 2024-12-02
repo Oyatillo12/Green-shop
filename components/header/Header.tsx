@@ -141,8 +141,7 @@ const Header = () => {
         <>
             <header className='flex items-center border-b-[1px] px-5 border-gray-200 py-5 max-w-[1200px] w-full mx-auto justify-between'>
                 <div className='flex items-center space-x-4'>
-                    <Menubtn extraStyle='' />
-                    <Image className='max-sm:hidden' priority style={{ width: "150px", height: "34px" }} alt='logo img' src={'./logo.svg'} width={150} height={34} />
+                    <Image priority style={{ width: "150px", height: "34px" }} alt='logo img' src={'./logo.svg'} width={150} height={34} />
                 </div>
                 <nav className='flex items-center justify-center max-md:hidden gap-[40px] lg:gap-[50px]'>
                     {navList.map((item: NavListType) => (
