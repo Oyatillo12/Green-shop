@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/header/Header";
 import Providers from "@/react-query/QueryProvider";
 import { ContextProvider } from "@/context/FilterContext";
+import Footer from "@/components/footer/Footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,6 +36,7 @@ export default function RootLayout({
           <ContextProvider>
             <Header />
             {children}
+            <Footer/>
           </ContextProvider>
         </Providers>
       </body>

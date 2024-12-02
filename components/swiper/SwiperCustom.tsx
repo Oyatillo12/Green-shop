@@ -17,7 +17,7 @@ import Image from 'next/image';
 
 export default function SwiperCustom() {
   return (
-    <>
+    <section>
       <Swiper
         autoplay={{
           delay: 3000,
@@ -91,6 +91,6 @@ export default function SwiperCustom() {
           <Image priority width={518} height={518} src={ProductImg} alt='Product img' />
         </SwiperSlide>
       </Swiper>
-    </>
+    </section>
   );
 }

@@ -1,5 +1,5 @@
 .products-part{
-    width: 75%;
+    width: 73%;
 }
 
 .products{
@@ -8,7 +8,8 @@
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    gap: 50px;
+    row-gap: 70px;
+    margin-bottom: 60px;
  }
 
  .discount-price{

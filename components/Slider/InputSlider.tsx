@@ -9,8 +9,8 @@ import "./style.css";
 import { Context } from '@/context/FilterContext';
 
 type RangeType = {
-    value:number[] | [number | number],
-    setValue: React.Dispatch<SetStateAction<number | number[]>>,
+    value:number[],
+    setValue: React.Dispatch<SetStateAction<number[]>>,
 }
 const InputSlider:React.FC<RangeType> = ({value, setValue}) => {
     const {prductsPrice} = useContext(Context)

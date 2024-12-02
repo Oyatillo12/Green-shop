@@ -6,7 +6,7 @@ import './style.css';
 type Buttontype = {
   title: string | ReactNode ,
   extraStyle: string,
-  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void,
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
   type: "submit" | "button" | "reset",
   rightIcon?: ReactNode,
   leftIcon?: ReactNode,

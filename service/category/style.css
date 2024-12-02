@@ -1,21 +1,27 @@
 .category{
-    width: 25%;
+    margin: 0;
+    width: 23%;
     background-color: #FBFBFB;
-    padding: 16px;
 }
 
 .category-list{
     margin-top: 10px;
-    padding-left: 12px;
+    padding-left: 28px;
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 16px;
 }
 
 .category-item {
-    margin-bottom: 8px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.skeletons{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 25%;
 }

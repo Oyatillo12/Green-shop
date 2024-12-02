@@ -2,9 +2,9 @@
 
 import Image from 'next/image'
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Button from '../../helper/components/button/Button';
-import { LogIcon } from '@/public/images/icon';
+import { BasketIcon, LogIcon } from '@/public/images/icon';
 import Modal from '../../helper/components/modal/Modal';
 import { usePathname, useRouter } from 'next/navigation';
 import RegisterPart from '../auth/RegisterPart';
@@ -15,6 +15,9 @@ import Menubtn from '../MenuBtn/Menubtn';
 import './style.css';
 import ResetPasword from '../auth/ResetPasword';
 import NewPasswordPart from '../auth/NewPasswordPart';
+import { Context } from '@/context/FilterContext';
+import { useQuery } from '@tanstack/react-query';
+import page from '@/app/blogs/page';
 
 type NavListType = { id: number; title: string; href: string, isActive: boolean };
 export type AuthType = { email?: string, password?: string, firstName?: string, lastName?: string };
@@ -28,24 +31,7 @@ const Header = () => {
     const [verifyValue, setVerifyValue] = useState<string>("");
     const [selectedAuth, setSelectedAuth] = useState<"login" | "register" | "verify" | "resetPassword" | "newPassword">('login');
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    
-    const [isToken, setIsToken] = useState(null);
-
-    const fetchToken = async () => {
-        try {
-            const token = await Promise.resolve(localStorage.getItem('token')); // Simulate async
-            if (token) {
-                setIsToken(JSON.parse(token));
-            }
-        } catch (error) {
-            console.error('Error fetching token:', error);
-        }
-    };
-
-    useEffect(() => {
-        fetchToken();
-    }, []);
-
+    const { accessToken, setAccessToken } = useContext(Context)
     const navList: NavListType[] = [
         {
             id: 1,
@@ -57,7 +43,7 @@ const Header = () => {
             id: 2,
             title: "Shop",
             href: "/shop",
-            isActive: pathname == "/shop"
+            isActive: pathname.includes("shop")
         },
         {
             id: 3,
@@ -132,14 +118,24 @@ const Header = () => {
             fetching.post('/login', data).then(res => {
                 setOpenLoginModal(false);
                 setIsLoading(false);
-                setIsToken(res.data);
-                localStorage.setItem('token', JSON.stringify(res.data));
+                setAccessToken(res.data.access_token);
+                localStorage.setItem('token', res.data.access_token);
             }).catch(err => {
                 setIsLoading(false);
                 console.log(err.message);
             });
         }
     }
+
+    // const {data:BaskedProducts = []} = useQuery({
+    //     queryKey: ['basked_products'],
+    //     queryFn:() => fetching.get('/basket', {
+    //         params: {
+    //             page:1,
+    //             limit:100
+    //         }
+    //     }).then(res => res.data)
+    // })
 
     return (
         <>
@@ -153,10 +149,13 @@ const Header = () => {
                         <Link className={`text-[16px] relative leading-5 text-[#3D3D3D] before:h-[3px] before:absolute before:w-full before:bg-[#46A358] before:bottom-[-30px] before:duration-500 duration-200 ${item.isActive ? "before:scale-1 font-bold" : "before:scale-0"} `} key={item.id} href={item.href}>{item.title}</Link>
                     ))}
                 </nav>
-                <div className='flex items-center justify-center gap-[23px] lg:gap-[30px]'>
+                <div className='flex items-center justify-center gap-[23px] lg:gap-[25px]'>
                     <Image priority style={{ width: "20px", height: "20px" }} alt='Search img' src={'/search-img.svg'} width={20} height={20} />
-                    <Image priority style={{ width: "29px", height: "24px" }} alt='Cart img' src={'/cart.svg'} width={29} height={24} />
-                    {isToken ? <button onClick={() => router.push('/profile')}><Image className='cursor-pointer'  priority style={{ width: "20px", height: "20px" }} alt='user icon img' src={'/user.jpg'} width={20} height={20} /></button> : <Button leftIcon={<LogIcon />} extraStyle='w-[100px]' onClick={() => setOpenLoginModal(true)} title={'login'} type='button' />}
+                    <button className='relative p-[6px] hover:bg-[#000]/20 duration-300 rounded-full'>
+                        <BasketIcon />
+                        <span className='text-[10px] absolute top-[0px] right-[0px] pb-[1px]  px-[4px] text-white bg-[#46A358] rounded-[50%]'>0</span>
+                    </button>
+                    {accessToken ? <button onClick={() => router.push('/profile')}><Image className='cursor-pointer' priority style={{ width: "20px", height: "20px" }} alt='user icon img' src={'/user.jpg'} width={20} height={20} /></button> : <Button leftIcon={<LogIcon />} extraStyle='w-[100px]' onClick={() => setOpenLoginModal(true)} title={'login'} type='button' />}
                 </div>
             </header>
             <Modal openModal={openLoginModal} setOpenModal={setOpenLoginModal} extraStyle='w-[500px]'>

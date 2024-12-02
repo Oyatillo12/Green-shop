@@ -1,7 +1,7 @@
 "use client";
 
 import { ProductType } from "@/service/products/Products";
-import { createContext, ReactNode, SetStateAction, useState } from "react";
+import { createContext, ReactNode, SetStateAction, useEffect, useState } from "react";
 
 interface ProductsPriceType {
     max: number | null,
@@ -22,6 +22,8 @@ interface ContextType {
     setProducstPrice: React.Dispatch<SetStateAction<ProductsPriceType>>,  
     products: ProductType[] | [],
     setProducts: React.Dispatch<SetStateAction<ProductType[] | []>>,  
+    accessToken: string | null,
+    setAccessToken: React.Dispatch<SetStateAction<string | null>>,  
 }
 
 
@@ -40,6 +42,8 @@ export const Context = createContext<ContextType>({
     setProducstPrice: () => ({max: null, min: null}),
     products: [],
     setProducts: () => [],
+    accessToken: null,
+    setAccessToken: () => null,
 });
 
 export const ContextProvider = ({ children }:{children:ReactNode}) => {
@@ -49,9 +53,25 @@ export const ContextProvider = ({ children }:{children:ReactNode}) => {
     const [minPrice,setMinPrice] = useState<number | null>(null);
     const [maxPrice,setMaxPrice] = useState<number | null>(null);
     const [prductsPrice, setProducstPrice] = useState<ProductsPriceType>({max: null, min: null});
-    const [products, setProducts] = useState<ProductType[] | []>([])
+    const [products, setProducts] = useState<ProductType[] | []>([]);
+    const [accessToken, setAccessToken] = useState<string | null>("");
+
+    const fetchToken = async () => {
+        try {
+            const token = await Promise.resolve(localStorage.getItem('token')); 
+            if (token) {
+                setAccessToken(token);
+            }
+        } catch (error) {
+            console.log('Error fetching token:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchToken();
+    }, []);
     return (
-        <Context.Provider value={{products, setProducts,prductsPrice, setProducstPrice, maxPrice,setMaxPrice,minPrice,setMinPrice,tags, setTags, categoryId, setCategoryId,size, setSize}}>
+        <Context.Provider value={{products, setProducts,prductsPrice,accessToken, setAccessToken, setProducstPrice, maxPrice,setMaxPrice,minPrice,setMinPrice,tags, setTags, categoryId, setCategoryId,size, setSize}}>
             {children}
         </Context.Provider>
     );
