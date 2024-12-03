@@ -1,5 +1,3 @@
-import { ArrowIcon } from '@/public/images/icon'
-import Image from 'next/image'
 import React from 'react'
 import BlogItem from './BlogItem'
 

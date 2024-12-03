@@ -13,6 +13,7 @@ import './styles.css';
 // import Swiper core and required modules
 import { Pagination, Autoplay } from 'swiper/modules';
 import Image from 'next/image';
+import { ArrowIcon } from '@/public/images/icon';
 
 export default function SwiperCustom() {
   return (
@@ -53,7 +54,7 @@ export default function SwiperCustom() {
             <button
               type="button"
               className="text-green-600 text-[9px] sm:text-[16px] hover:text-white bg-transparent border duration-300 border-green-600 hover:bg-green-600 px-2 py-1 sm:px-6 sm:py-3 rounded-md font-medium flex items-center justify-between"
-            >SHOP NOW <span >&rarr;</span>
+            >SHOP NOW <ArrowIcon/>
             </button>
           </div>
 

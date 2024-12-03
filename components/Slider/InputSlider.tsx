@@ -6,10 +6,10 @@ import { Context } from '@/context/FilterContext';
 
 type RangeType = {
   setValue: React.Dispatch<SetStateAction<number[]>>;
-  value:number[];
+  value?:number[];
 };
 
-const InputSlider: React.FC<RangeType> = ({ setValue,  value}) => {
+const InputSlider: React.FC<RangeType> = ({ setValue}) => {
   const {prductsPrice} = useContext(Context)
   const [leftValue, setLeftValue] = useState(prductsPrice.min || 25)
   const [rightValue, setRightValue] = useState(prductsPrice.max || 777);
