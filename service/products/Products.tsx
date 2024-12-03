@@ -40,7 +40,7 @@ const Products = () => {
     const [sortOption, setSortOption] = useState("default");
     const [currentPage, setCurrentPage] = useState(1)
     const [perPage, setPerPage] = useState<number>(9);
-    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+    const [screenWidth, setScreenWidth] = useState(0);
     const { data = [], isPending } = useQuery({
         queryKey: ['products', categoryId, size, tags, minPrice, maxPrice],
         queryFn: () => axios.get('/products', {
@@ -59,6 +59,22 @@ const Products = () => {
     const totalPages = Math.ceil(data.length / perPage)
     const startIndex = (currentPage - 1) * perPage
     const currentProducts = data.slice(startIndex, startIndex + perPage);
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            setScreenWidth(window.innerWidth); 
+
+            const handleResize = () => {
+                setScreenWidth(window.innerWidth);
+            };
+
+            // Add event listener
+            window.addEventListener("resize", handleResize);
+
+            // Cleanup listener on unmount
+            return () => window.removeEventListener("resize", handleResize);
+        }
+    }, []);
 
     useEffect(() => {
         const handleResize = () => {
