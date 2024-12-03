@@ -3,7 +3,7 @@ import './style.css'
 
 const Menubtn: React.FC<{ extraStyle?: string }> = ({ extraStyle }) => {
     return (
-        <div className={`hamburger-lines ${extraStyle} sm:hidden`}>
+        <div className={`hamburger-lines md:hidden`}>
             <span className="line line1"></span>
             <span className="line line2"></span>
             <span className="line line3"></span>

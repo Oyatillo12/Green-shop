@@ -6,7 +6,7 @@ import FooterBottom from './footerBottom'
 const Footer: React.FC = () => {
   return (
     <footer>
-      <div className='w-[1200px] mx-auto bg-[#FBFBFB] border-b-[#46A35833] border-b-[2px]'>
+      <div className='max-w-[1200px] w-full mx-auto bg-[#FBFBFB] border-b-[#46A35833] border-b-[2px]'>
         <FooterTop />
         <FooterCenter />
         <FooterBottom />

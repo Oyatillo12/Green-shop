@@ -9,7 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Skeleton } from 'antd';
 import Image from 'next/image';
 import { useParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 
 
 type IconType = {
@@ -62,9 +62,10 @@ const SinglePage = () => {
       setProduct(data)
       setSelectedSize(data.size[0])
     }
-  }, [isPending]);
-  console.log(product);
+  }, [isPending, JSON.stringify(data)]);
 
+  console.log(data);
+  
 
   return (
     <div>
@@ -185,4 +186,4 @@ const SinglePage = () => {
   )
 }
 
-export default SinglePage
+export default SinglePage;

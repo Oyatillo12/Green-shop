@@ -4,20 +4,19 @@ import Image from 'next/image'
 import Link from 'next/link';
 import React, { useContext, useEffect, useState } from 'react'
 import Button from '../../helper/components/button/Button';
-import { BasketIcon, LogIcon } from '@/public/images/icon';
+import { BasketIcon, LogIcon, LogoIcon } from '@/public/images/icon';
 import Modal from '../../helper/components/modal/Modal';
 import { usePathname, useRouter } from 'next/navigation';
 import RegisterPart from '../auth/RegisterPart';
 import { useAxios } from '@/hooks/useAxios';
 import VerifyPart from '../auth/VerifyPart';
 import LoginPart from '../auth/LoginPart';
-import Menubtn from '../MenuBtn/Menubtn';
 import './style.css';
 import ResetPasword from '../auth/ResetPasword';
 import NewPasswordPart from '../auth/NewPasswordPart';
 import { Context } from '@/context/FilterContext';
-import { useQuery } from '@tanstack/react-query';
-import page from '@/app/blogs/page';
+import Input from '@/helper/components/input/Input';
+import Menubtn from '../MenuBtn/Menubtn';
 
 type NavListType = { id: number; title: string; href: string, isActive: boolean };
 export type AuthType = { email?: string, password?: string, firstName?: string, lastName?: string };
@@ -26,6 +25,7 @@ const Header = () => {
     const fetching = useAxios();
     const pathname = usePathname();
     const router = useRouter();
+    const [isMenuBtnOpen, setIsMenuBtnOpen] = useState<boolean>(false);
     const [saveEmail, setSaveEmail] = useState<string | undefined>("")
     const [openLoginModal, setOpenLoginModal] = useState<boolean>(false);
     const [verifyValue, setVerifyValue] = useState<string>("");
@@ -137,24 +137,107 @@ const Header = () => {
     //     }).then(res => res.data)
     // })
 
+    useEffect(() => {
+        document.body.style.overflow = isMenuBtnOpen ? 'hidden' : 'auto';
+    }, [isMenuBtnOpen])
+
+    function handleCLickedProfileOrLogin(): void {
+        if (accessToken) {
+            router.push('/profile')
+            setIsMenuBtnOpen(false);
+        }
+        else {
+            setIsMenuBtnOpen(false);
+            setOpenLoginModal(true);
+        }
+    }
+
     return (
         <>
-            <header className='flex items-center border-b-[1px] px-5 border-gray-200 py-5 max-w-[1200px] w-full mx-auto justify-between'>
-                <div className='flex items-center space-x-4'>
-                    <Image priority style={{ width: "150px", height: "34px" }} alt='logo img' src={'./logo.svg'} width={150} height={34} />
+            <header className="flex items-center  border-b border-gray-200 px-4 md:px-6 py-4 max-w-[1200px] w-full mx-auto justify-between">
+                <div className="flex items-center space-x-4">
+                    <Link className='cursor-pointer' href={'/'}>
+                        <Image
+                            className="hidden lg:inline-block"
+                            priority
+                            style={{ width: "150px", height: "34px" }}
+                            alt="logo img"
+                            src="/logo.svg"
+                            width={150}
+                            height={34}
+                        />
+                        <LogoIcon className="lg:hidden" />
+                    </Link>
                 </div>
-                <nav className='flex items-center justify-center max-md:hidden gap-[40px] lg:gap-[50px]'>
+                <nav className="hidden md:flex items-center justify-center gap-8 lg:gap-12">
                     {navList.map((item: NavListType) => (
-                        <Link className={`text-[16px] relative leading-5 text-[#3D3D3D] before:h-[3px] before:absolute before:w-full before:bg-[#46A358] before:bottom-[-30px] before:duration-500 duration-200 ${item.isActive ? "before:scale-1 font-bold" : "before:scale-0"} `} key={item.id} href={item.href}>{item.title}</Link>
+                        <Link
+                            className={`text-sm lg:text-base relative leading-5 text-gray-700 
+                before:h-0.5 before:absolute before:w-full before:bg-green-600 
+                lg:before:bottom-[-28px] before:bottom-[-30px]  before:duration-500 duration-200 
+                ${item.isActive ? "before:scale-100 font-bold" : "before:scale-0"}`}
+                            key={item.id}
+                            href={item.href}
+                        >
+                            {item.title}
+                        </Link>
                     ))}
                 </nav>
-                <div className='flex items-center justify-center gap-[23px] lg:gap-[25px]'>
-                    <Image priority style={{ width: "20px", height: "20px" }} alt='Search img' src={'/search-img.svg'} width={20} height={20} />
-                    <button className='relative p-[6px] hover:bg-[#000]/20 duration-300 rounded-full'>
+
+                <div className="flex max-md:w-full items-center gap-4 md:gap-6">
+                    <label
+                        htmlFor="search"
+                        className="relative flex items-center w-full md:w-auto ml-4"
+                    >
+                        <Image
+                            className="absolute right-4 scale-80 inset-y-0 my-auto"
+                            priority
+                            style={{ width: "20px", height: "20px" }}
+                            alt="Search img"
+                            src="/search-img.svg"
+                            width={20}
+                            height={20}
+                        />
+                        <Input
+                            extraStyle="w-full max-md:max-w-full md:w-auto"
+                            name="search"
+                            placeholder="Find your plants"
+                            type="text"
+                        />
+                    </label>
+
+                    <button onClick={() => setIsMenuBtnOpen(true)} className='md:hidden'><Menubtn /></button>
+
+                    <button className="hidden md:flex relative p-2 hover:bg-gray-900/20 duration-300 rounded-full">
                         <BasketIcon />
-                        <span className='text-[10px] absolute top-[0px] right-[0px] pb-[1px]  px-[4px] text-white bg-[#46A358] rounded-[50%]'>0</span>
+                        <span className="text-xs absolute top-0 right-0 pb-0.5 px-1.5 text-white bg-green-600 rounded-full">
+                            0
+                        </span>
                     </button>
-                    {accessToken ? <button onClick={() => router.push('/profile')}><Image className='cursor-pointer' priority style={{ width: "20px", height: "20px" }} alt='user icon img' src={'/user.jpg'} width={20} height={20} /></button> : <Button leftIcon={<LogIcon />} extraStyle='w-[100px]' onClick={() => setOpenLoginModal(true)} title={'login'} type='button' />}
+
+                    {accessToken ? (
+                        <button
+                            className="hidden md:flex items-center justify-center"
+                            onClick={() => router.push('/profile')}
+                        >
+                            <Image
+                                priority
+                                style={{ width: "20px", height: "20px" }}
+                                alt="user icon img"
+                                src="/user.jpg"
+                                width={20}
+                                height={20}
+                            />
+                        </button>
+                    ) : (
+                        <Button
+                            leftIcon={<LogIcon />}
+                            extraStyle=" max-md:!hidden w-24"
+                            onClick={() => setOpenLoginModal(true)}
+                            title="Login"
+                            type="button"
+                        />
+                    )}
                 </div>
             </header>
             <Modal openModal={openLoginModal} setOpenModal={setOpenLoginModal} extraStyle='w-[500px]'>
@@ -170,6 +253,36 @@ const Header = () => {
                     {selectedAuth == "newPassword" && <NewPasswordPart setValue={setVerifyValue} />}
                     <Button type='submit' onClick={() => { }} extraStyle='w-[300px] !py-[15px]' title={isLoading ? <span className="loader"></span> : selectedAuth === "register" ? "Register" : selectedAuth === "verify" ? "Verify" : selectedAuth === "resetPassword" ? "Send Code" : selectedAuth === "newPassword" ? "Reset Password" : "Login"} />
                 </form>
+            </Modal>
+            <Modal extraStyle='h-full w-[70%] !absolute right-0' openModal={isMenuBtnOpen} setOpenModal={setIsMenuBtnOpen}>
+                <Link onClick={() => setIsMenuBtnOpen(false)} className='cursor-pointer' href={'/'}>
+                    <Image
+                        priority
+                        style={{ maxWidth: "150px", width: "100%", height: "34px" }}
+                        alt="logo img"
+                        src="/logo.svg"
+                        width={150}
+                        height={34}
+                    />
+                </Link>
+                <div className='flex flex-col mt-6 items-center space-y-3'>
+                    {navList.map((item: NavListType) => (
+                        <Link
+                            onClick={() => setIsMenuBtnOpen(false)}
+                            className={` duration-300 text-[14px] ${item.isActive ? "text-green-600 font-bold" : ""}`}
+                            key={item.id}
+                            href={item.href}
+                        >
+                            {item.title}
+                        </Link>
+                    ))}
+                </div>
+                <Button
+                    extraStyle='!max-w-full mt-4 w-full'
+                    title={accessToken ? "Profile" : "Login"}
+                    type='button'
+                    onClick={handleCLickedProfileOrLogin}
+                />
             </Modal>
         </>
     )

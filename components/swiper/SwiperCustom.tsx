@@ -12,7 +12,6 @@ import './styles.css';
 
 // import Swiper core and required modules
 import { Pagination, Autoplay } from 'swiper/modules';
-import Button from '../../helper/components/button/Button';
 import Image from 'next/image';
 
 export default function SwiperCustom() {
@@ -36,60 +35,38 @@ export default function SwiperCustom() {
           className="parallax-bg"
           data-swiper-parallax="-23%"
         ></div>
-        <SwiperSlide >
-          <div className='!w-[530px] '>
-            <p className="text-[14px] text-[#3D3D3D] mb-[7px] tracking-[10%] leading-4 font-medium" data-swiper-parallax="-300">
-              Welcome to GreenShop
+        <SwiperSlide className='sm:!p-10'>
+          <div className="max-w-[530px]">
+            <p className="text-[11px] sm:text-[16px] max-sm:absolute top-2  sm:mb-3 text-[#3D3D3D] font-medium tracking-widest">
+              WELCOME TO GREENSHOP
             </p>
-            <h2 className="font-extrabold text-[60px] leading-[60px] text-[#3D3D3D] mb-[5px]" data-swiper-parallax="-200">
-              Let’s Make a
-              Better <span className='text-[#46A358]'> Planet</span>
+
+            <h2 className="font-extrabold text-[14px] leading-4 sm:text-[28px] sm:leading-[29px] md:text-[40px] md:leading-[44px] lg:text-[55px] lg:leading-[60px] text-gray-800 mb-[3px] sm:mb-2 lg:mb-4">
+              LET'S MAKE A 
+              BETTER <span className="text-green-600">PLANET</span>
             </h2>
-            <div className="text" data-swiper-parallax="-100">
-              <p className='text-[14px] text-[#727272] mb-[44px]'>
-                We are an online plant shop offering a wide range of cheap and trendy plants. Use our plants to create an unique Urban Jungle. Order your favorite plants!
-              </p>
-              <Button type='button' title='SHOP NOW' extraStyle='w-[140px] !py-[10px]' onClick={() => { }} />
-            </div>
-          </div>
-          <Image priority width={518} height={518} src={ProductImg} alt='Product img' />
-        </SwiperSlide>
-        <SwiperSlide >
-          <div className='!w-[530px] '>
-            <p className="text-[14px] text-[#3D3D3D] mb-[7px] tracking-[10%] leading-4 font-medium uppercase" data-swiper-parallax="-300">
-              Welcome to GreenShop
+
+            <p className="sm:text-sm text-[12px] max-sm:line-clamp-1 max-md:line-clamp-2 text-gray-600 mb-[10px] sm:mb-4 lg:mb-6">
+              We are an online plant shop offering a wide range of cheap and trendy plants. Use our plants to create a unique Urban Jungle. Order your favorite plants!
             </p>
-            <h2 className="font-extrabold text-[60px] leading-[60px] text-[#3D3D3D] mb-[5px]" data-swiper-parallax="-200">
-              Let’s Make a
-              Better <span className='text-[#46A358]'> Planet</span>
-            </h2>
-            <div className="text" data-swiper-parallax="-100">
-              <p className='text-[14px] text-[#727272] mb-[44px]'>
-                We are an online plant shop offering a wide range of cheap and trendy plants. Use our plants to create an unique Urban Jungle. Order your favorite plants!
-              </p>
-              <Button type='button' title='SHOP NOW' extraStyle='w-[140px] !py-[10px]' onClick={() => { }} />
-            </div>
+
+            <button
+              type="button"
+              className="text-green-600 text-[9px] sm:text-[16px] hover:text-white bg-transparent border duration-300 border-green-600 hover:bg-green-600 px-2 py-1 sm:px-6 sm:py-3 rounded-md font-medium flex items-center justify-between"
+            >SHOP NOW <span >&rarr;</span>
+            </button>
           </div>
-          <Image priority width={518} height={518} src={ProductImg} alt='Product img' />
-        </SwiperSlide>
-        <SwiperSlide >
-          <div className='!w-[530px] '>
-            <p className="text-[14px] text-[#3D3D3D] mb-[7px] tracking-[10%] leading-4 font-medium" data-swiper-parallax="-300">
-              Welcome to GreenShop
-            </p>
-            <h2 className="font-extrabold text-[60px] leading-[60px] text-[#3D3D3D] mb-[5px]" data-swiper-parallax="-200">
-              Let’s Make a
-              Better <span className='text-[#46A358]'> Planet</span>
-            </h2>
-            <div className="text" data-swiper-parallax="-100">
-              <p className='text-[14px] text-[#727272] mb-[44px]'>
-                We are an online plant shop offering a wide range of cheap and trendy plants. Use our plants to create an unique Urban Jungle. Order your favorite plants!
-              </p>
-              <Button type='button' title='SHOP NOW' extraStyle='w-[140px] !py-[10px]' onClick={() => { }} />
-            </div>
+
+          <div className="flex-shrink-0">
+            <Image
+              className="max-w-[120px] max-sm:h-[120px] sm:max-w-[230px] md:max-w-[330px] h-auto lg:max-w-[430px] xl:max-w-[500px] w-full"
+              priority
+              src={ProductImg}
+              alt="Product img"
+            />
           </div>
-          <Image priority width={518} height={518} src={ProductImg} alt='Product img' />
         </SwiperSlide>
+
       </Swiper>
     </section>
   );

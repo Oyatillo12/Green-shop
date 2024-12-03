@@ -51,8 +51,8 @@ const Category = () => {
 
                 <Skeleton loading active style={{ width: "310px", height: "470px" }} />
             </div>
-        ) : <div className="category rounded-lg pt-2">
-            <h2 style={{paddingLeft:"18px"}} className="text-[18px] font-bold text-[#3D3D3D] mb-2">Categories</h2>
+        ) : <div className="category rounded-lg pt-2 ">
+            <h2 style={{paddingLeft:"18px"}} className="text-[18px] font-bold text-[#3D3D3D]  mb-2 ">Categories</h2>
             <ul className="category-list ">
                 <li onClick={handleAllProducts} className={`text-[#3D3D3D]  cursor-pointer ${categoryId == "" ? "text-[#46A358] font-bold" : "text-[#3D3D3D]"}`}>
                     <span className=" text-[15px]">All</span>

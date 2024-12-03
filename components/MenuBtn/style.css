@@ -40,3 +40,9 @@
 .open .line3 {
   transform: rotate(-45deg);
 }
+
+@media (min-width: 768px) {
+  .hamburger-lines{
+    display: none;
+  }
+}

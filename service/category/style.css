@@ -2,6 +2,7 @@
     margin: 0;
     width: 23%;
     background-color: #FBFBFB;
+    max-height: 1226px;
 }
 
 .category-list{
@@ -24,4 +25,10 @@
     flex-direction: column;
     gap: 20px;
     width: 25%;
+}
+
+@media (max-width:900px){
+    .category-list{
+        gap:12px;
+    }  
 }

@@ -16,7 +16,7 @@ const SortingDropdown:React.FC<SortType> = ({handleSortChange, sortOption}) => {
                 id="sorting"
                 value={sortOption}
                 onChange={handleSortChange}
-                className="border-none outline-none focus:none rounded px-2 py-1 text-gray-700"
+                className="border-none outline-none focus:none text-gray-700"
             >
                 <option value="default">Default sorting</option>
                 <option value="price">Price</option>

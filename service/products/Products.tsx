@@ -31,20 +31,16 @@ type TagsType = {
     title?: string
 }
 
-const PRODUCTS_PER_PAGE = 9
+
 
 const Products = () => {
+    const axios = useAxios();
+    const { categoryId, size, tags, setTags, minPrice, maxPrice, setProducstPrice } = useContext(Context);
     const [products, setProducts] = useState<ProductType[] | []>([])
     const [sortOption, setSortOption] = useState("default");
     const [currentPage, setCurrentPage] = useState(1)
-    const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE)
-    const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE
-    const currentProducts = products.slice(startIndex, startIndex + PRODUCTS_PER_PAGE);
-    
-
-    const axios = useAxios();
-    const { categoryId, size, tags, setTags, minPrice, maxPrice, setProducstPrice } = useContext(Context);
-
+    const [perPage, setPerPage] = useState<number>(9);
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
     const { data = [], isPending } = useQuery({
         queryKey: ['products', categoryId, size, tags, minPrice, maxPrice],
         queryFn: () => axios.get('/products', {
@@ -59,9 +55,38 @@ const Products = () => {
                 min_price: minPrice,
             }
         }).then(res => res.data.products ? res.data.products : []),
-        enabled: true
-    })
-    
+    });
+    const totalPages = Math.ceil(data.length / perPage)
+    const startIndex = (currentPage - 1) * perPage
+    const currentProducts = data.slice(startIndex, startIndex + perPage);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setScreenWidth(window.innerWidth); // Update screen width
+        };
+
+        // Add event listener
+        window.addEventListener("resize", handleResize);
+
+        // Cleanup event listener on unmount
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    // Update products per page based on screen width
+    useEffect(() => {
+        if (screenWidth <= 1075) {
+            setPerPage(6);
+        } else {
+            setPerPage(9);
+        }
+    }, [screenWidth]);
+
+
+
+
+
+
+
     const tagsList: TagsType[] = [
         {
             title: "All Plants",
@@ -82,10 +107,6 @@ const Products = () => {
                 min: Math.min(...data.map((product: ProductType) => product.cost)),
                 max: Math.max(...data.map((product: ProductType) => product.cost)),
             });
-            setProducts(data);
-        }
-        else {
-            setProducts([]);
         }
     }, [JSON.stringify(data)])
 
@@ -107,7 +128,7 @@ const Products = () => {
     }
     return (
         <div className='products-part'>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div style={{ display: "flex", alignItems: "start", justifyContent: "space-between" }}>
                 <div className='tags'>
                     {tagsList.map((item: TagsType) => (
                         <button key={item.href} onClick={() => setTags(item.href)} className={`${tags == item.href ? "text-[#46A358] font-bold before:scale-1" : "text-[#3D3D3D] before:scale-0"} tag-btn  duration-300 text-[14px]`}>{item.title}</button>
@@ -115,14 +136,14 @@ const Products = () => {
                 </div>
                 <SortingDropdown handleSortChange={handeChangeSort} sortOption={sortOption} />
             </div>
-            <div className='products flex  mb-5 flex-wrap items-center justify-between'>
+            <div className='products flex sm:!space-x-14 flex-wrap items-center justify-between'>
                 {isPending ? Array(currentProducts.length).fill(0).map((_, index) => (
-                    <Skeleton key={index} loading active  style={{width:"250px", height:"319px"}} />
+                    <Skeleton key={index} loading active style={{ width: "250px", height: "319px" }} />
                 )) : currentProducts.length
-                        ? currentProducts.map((product: ProductType, index: number) => (
-                            <ProductItem key={index} product={product} />
-                        ))
-                        : <p className='text-[20px] text-center mt-[20px]'>No Products Found</p>
+                    ? currentProducts.map((product: ProductType, index: number) => (
+                        <ProductItem key={index} product={product} />
+                    ))
+                    : <p className='text-[20px] text-center mt-[20px]'>No Products Found</p>
                 }
             </div>
             <Pagination currentPage={currentPage} onPageChange={setCurrentPage} totalPages={totalPages} />

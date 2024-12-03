@@ -8,8 +8,8 @@
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    row-gap: 70px;
-    margin-bottom: 60px;
+    row-gap: 28px;
+    margin-bottom: 30px;
  }
 
  .discount-price{

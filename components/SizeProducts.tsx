@@ -27,7 +27,7 @@ const SizeProducts = () => {
         <div style={{padding:" 0 18px"}} className='mb-4'>
             <div className='flex items-center justify-between'>
                 <h2 className='text-[18px] text-[#3D3D3D] font-bold mb-2'>Size</h2>
-                {size !== null ? <Button type='button' onClick={() => setSize(null)} title={"reset"} extraStyle='w-[80px]' /> : null}
+                {size  &&  <Button type='button' onClick={() => setSize(null)} title={"reset"} extraStyle='w-[80px]' /> }
             </div>
             <ul className='space-y-5 pl-4'>
                 {sizeList.map((item: SizeType) => (

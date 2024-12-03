@@ -1,22 +1,23 @@
 .swiper {
-  width: 100%;
-  height: 450px;
   background: #000;
+  height: 450px;
   z-index: 10;
+  border-radius: 12px;
 }
-.mySwiper{
-    z-index: 10; 
+
+.mySwiper {
+  z-index: 10;
+  border-radius: 12px;
 }
 
 .swiper-slide {
+  border-radius: 12px;
   font-size: 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: #fff;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  padding: 40px 60px;
+  position: relative;
 }
 
 .parallax-bg {
@@ -41,4 +42,15 @@
   font-size: 14px;
   max-width: 400px;
   line-height: 1.3;
+}
+
+@media (max-width: 768px) {
+  .swiper-slide {
+    justify-content: start;
+    padding: 24px;
+  }
+
+  .swiper {
+    height: auto;
+  }
 }

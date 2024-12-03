@@ -72,7 +72,7 @@ const FooterBottom = () => {
                     </div>
                     <div className="mt-6">
                         <h4 className="mb-4 text-sm font-medium">We accept</h4>
-                        <Image priority style={{ width: '226px', height: "26px" }} src={'/payment.png'} alt={'payment images'} width={224} height={26} />
+                        <Image priority style={{ width: 'auto', height: "auto" }} src={'/payment.png'} alt={'payment images'} width={224} height={26} />
                     </div>
                 </div>
             </div>
