@@ -6,7 +6,7 @@ import { LogIcon } from '@/public/images/icon'
 import { useRouter } from 'next/navigation';
 import React, { useContext, useState } from 'react'
 
-const page = () => {
+const ProfilePage = () => {
   const router = useRouter();
   const { userInfo, setAccessToken, setRefreshToken } = useContext(Context);
   const [logOutModal, setLogOutModal] = useState<boolean>(false);
@@ -91,4 +91,4 @@ const page = () => {
   )
 }
 
-export default page
+export default ProfilePage
