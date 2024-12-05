@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link';
 import React, { useContext, useEffect, useState } from 'react'
 import Button from '../../helper/components/button/Button';
-import { BasketIcon, LogIcon, LogoIcon } from '@/public/images/icon';
+import { BasketIcon, FilterIcon, LogIcon, LogoIcon } from '@/public/images/icon';
 import Modal from '../../helper/components/modal/Modal';
 import { usePathname, useRouter } from 'next/navigation';
 import RegisterPart from '../auth/RegisterPart';
@@ -17,21 +17,24 @@ import NewPasswordPart from '../auth/NewPasswordPart';
 import { Context } from '@/context/FilterContext';
 import Input from '@/helper/components/input/Input';
 import Menubtn from '../MenuBtn/Menubtn';
+import { AuthType, NavListType } from '@/types';
+import { useQuery } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 
-type NavListType = { id: number; title: string; href: string, isActive: boolean };
-export type AuthType = { email?: string, password?: string, firstName?: string, lastName?: string };
+
 
 const Header = () => {
     const fetching = useAxios();
     const pathname = usePathname();
     const router = useRouter();
+    const [basketCount, setBasketCount] = useState<number>(0);
     const [isMenuBtnOpen, setIsMenuBtnOpen] = useState<boolean>(false);
     const [saveEmail, setSaveEmail] = useState<string | undefined>("")
     const [openLoginModal, setOpenLoginModal] = useState<boolean>(false);
     const [verifyValue, setVerifyValue] = useState<string>("");
     const [selectedAuth, setSelectedAuth] = useState<"login" | "register" | "verify" | "resetPassword" | "newPassword">('login');
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const { accessToken, setAccessToken } = useContext(Context)
+    const { accessToken, setAccessToken, setRefreshToken, setUserInfo } = useContext(Context)
     const navList: NavListType[] = [
         {
             id: 1,
@@ -119,23 +122,33 @@ const Header = () => {
                 setOpenLoginModal(false);
                 setIsLoading(false);
                 setAccessToken(res.data.access_token);
-                localStorage.setItem('token', res.data.access_token);
+                setRefreshToken(res.data.refresh_token);
+                setUserInfo(res.data);
+                localStorage.setItem('token', JSON.stringify(res.data));
+                localStorage.setItem('refresh_token', res.data.refresh_token);
             }).catch(err => {
                 setIsLoading(false);
                 console.log(err.message);
             });
         }
+        (e.target as HTMLFormElement).reset();
     }
 
-    // const {data:BaskedProducts = []} = useQuery({
-    //     queryKey: ['basked_products'],
-    //     queryFn:() => fetching.get('/basket', {
-    //         params: {
-    //             page:1,
-    //             limit:100
-    //         }
-    //     }).then(res => res.data)
-    // })
+    const { data: BaskedProducts = [] } = useQuery({
+        queryKey: ['basked products'],
+        queryFn: () => fetching.get('/basket', {
+            params: {
+                page: 1,
+                limit: 100
+            }
+        }).then(res => res.data.ProductId),
+        enabled: !!accessToken,
+    })
+
+    useEffect(() => {
+        setBasketCount(BaskedProducts.length)
+    }, [BaskedProducts]);
+
 
     useEffect(() => {
         document.body.style.overflow = isMenuBtnOpen ? 'hidden' : 'auto';
@@ -155,10 +168,9 @@ const Header = () => {
     return (
         <>
             <header className="flex items-center  border-b border-gray-200 px-4 md:px-6 py-4 max-w-[1200px] w-full mx-auto justify-between">
-                <div className="flex items-center space-x-4">
-                    <Link className='cursor-pointer' href={'/'}>
+                <div className="flex items-center space-x-0 md:space-x-4">
+                    <Link className='cursor-pointer hidden lg:inline-block' href={'/'}>
                         <Image
-                            className="hidden lg:inline-block"
                             priority
                             style={{ width: "150px", height: "34px" }}
                             alt="logo img"
@@ -166,8 +178,8 @@ const Header = () => {
                             width={150}
                             height={34}
                         />
-                        <LogoIcon className="lg:hidden" />
                     </Link>
+                    <button onClick={() => setIsMenuBtnOpen(true)} className='md:hidden'><Menubtn /></button>
                 </div>
                 <nav className="hidden md:flex items-center justify-center gap-8 lg:gap-12">
                     {navList.map((item: NavListType) => (
@@ -190,7 +202,7 @@ const Header = () => {
                         className="relative flex items-center w-full md:w-auto ml-4"
                     >
                         <Image
-                            className="absolute right-4 scale-80 inset-y-0 my-auto"
+                            className="absolute right-4 scale-[0.7] sm:scale-80 inset-y-0  my-auto"
                             priority
                             style={{ width: "20px", height: "20px" }}
                             alt="Search img"
@@ -206,12 +218,17 @@ const Header = () => {
                         />
                     </label>
 
-                    <button onClick={() => setIsMenuBtnOpen(true)} className='md:hidden'><Menubtn /></button>
-
-                    <button className="hidden md:flex relative p-2 hover:bg-gray-900/20 duration-300 rounded-full">
+                    <button onClick={() => {
+                        if(!accessToken || BaskedProducts.length == 0){
+                            setBasketCount(0); 
+                            toast.error("Your cart is empty");
+                            return;
+                        }
+                        router.push('/shop/shopping-card')
+                    }} className="hidden md:flex relative p-2 hover:bg-gray-900/20 duration-300 rounded-full">
                         <BasketIcon />
                         <span className="text-xs absolute top-0 right-0 pb-0.5 px-1.5 text-white bg-green-600 rounded-full">
-                            0
+                            {basketCount}
                         </span>
                     </button>
 
@@ -240,7 +257,7 @@ const Header = () => {
                     )}
                 </div>
             </header>
-            <Modal openModal={openLoginModal} setOpenModal={setOpenLoginModal} extraStyle='w-[500px]'>
+            <Modal openModal={openLoginModal} setOpenModal={setOpenLoginModal} extraStyle='max-w-[500px] w-full'>
                 <ul className='flex cursor-pointer items-center gap-[27px] justify-center mb-[40px] pt-[50px]'>
                     {selectedAuth == "verify" ? <li className={`text-[#46A358] text-[16px] leading-5 hover:opacity-70 duration-200 font-medium`}>Verify</li> : <><li onClick={() => setSelectedAuth("login")} className={`${selectedAuth == 'login' ? "text-[#46A358]" : "text-[#3D3D3D]"}  text-[16px] font-medium relative hover:opacity-70 duration-200 leading-5 after:w-[1px] after:h-4 after:bg-[#3D3D3D] after:absolute after:right-[-12px] after:bottom-0 `}>Login</li>
                         <li onClick={() => setSelectedAuth("register")} className={`${selectedAuth == 'register' ? "text-[#46A358]" : "text-[#3D3D3D]"} text-[16px] leading-5 hover:opacity-70 duration-200 font-medium`}>Register</li></>}
@@ -254,7 +271,7 @@ const Header = () => {
                     <Button type='submit' onClick={() => { }} extraStyle='w-[300px] !py-[15px]' title={isLoading ? <span className="loader"></span> : selectedAuth === "register" ? "Register" : selectedAuth === "verify" ? "Verify" : selectedAuth === "resetPassword" ? "Send Code" : selectedAuth === "newPassword" ? "Reset Password" : "Login"} />
                 </form>
             </Modal>
-            <Modal extraStyle='h-full w-[70%] !absolute right-0' openModal={isMenuBtnOpen} setOpenModal={setIsMenuBtnOpen}>
+            <Modal extraStyle='h-full w-[70%] !absolute left-0' openModal={isMenuBtnOpen} setOpenModal={setIsMenuBtnOpen}>
                 <Link onClick={() => setIsMenuBtnOpen(false)} className='cursor-pointer' href={'/'}>
                     <Image
                         priority

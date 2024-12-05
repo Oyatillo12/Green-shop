@@ -5,21 +5,20 @@ import { useAxios } from '@/hooks/useAxios';
 import { BasketIcon, LikeIcon } from '@/public/images/icon';
 import { ProductType } from '@/service/products/Products'
 import { QueryClient, useMutation, useQueryClient } from '@tanstack/react-query';
-import { message } from 'antd';
 import Image from 'next/image'
 import { useRouter } from 'next/navigation';
 import React, { useContext, useState } from 'react'
+import toast, { Toaster } from 'react-hot-toast';
 
 const ProductItem: React.FC<{ product: ProductType }> = ({ product }) => {
     const router = useRouter();
     const [hover, setHover] = useState<boolean>(false);
-    const [messageApi, contextHolder] = message.useMessage();
     const { accessToken } = useContext(Context)
     const axiosInstance = useAxios();
     const queryClient: QueryClient = useQueryClient();
 
     async function ClickLiked() {
-        if (!accessToken) return messageApi.error("Please log in first!");
+        if (!accessToken) return toast.error("Please log in first!");
         else {
             const res = await axiosInstance.post(`/like/${product.product_id}`)
             return res.data
@@ -31,26 +30,32 @@ const ProductItem: React.FC<{ product: ProductType }> = ({ product }) => {
         mutationFn: () => ClickLiked(),
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ['products'] })
     });
-    async function BasketClick() {
-        if (!accessToken) {
-            messageApi.error("Please log in first!");
-            return
+
+
+    async function addCart(): Promise<ProductType | null> {
+        if(!accessToken){
+            toast.error("Please log in first!");
+            return null;
         }
-        const res = await axiosInstance.post(`/basket/`, {
-            productsId: product.product_id,
-        })
-        return res.data
-    };
+        const res = await axiosInstance.post('/basket', {
+            productId: product.product_id,
+        });
+        return res.data;
+    }
 
     const basketMutation = useMutation({
-        mutationKey: ['likeProduct'],
-        mutationFn: () => BasketClick(),
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['products'] })
+        mutationFn: () => addCart(),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['products'] });
+            queryClient.invalidateQueries({ queryKey: ['basked products']});
+        },
+        onError: () => toast.error('Failed to add product to cart!')
     });
+
     return (
         <>
-            {contextHolder}
-            <div onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} className='sm:w-[250px]   w-[160px] rounded-lg overflow-hidden relative' >
+            <Toaster position='top-center' reverseOrder={false} />
+            <div onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} className='md:w-[250px]   sm:w-[180px] w-[160px] rounded-lg overflow-hidden relative' >
                 <div onClick={() => router.push(`/shop/${product.product_id}`)} style={{ backgroundColor: "#FBFBFB", }}>
                     <Image priority style={{ width: "100%", height: "auto", objectFit: "cover" }} src={product.image_url ? product.image_url[0] : "/logo.svg"} alt={product.product_name ? product.product_name : "product img"} width={250} height={250} />
                 </div>

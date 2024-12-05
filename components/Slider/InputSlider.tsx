@@ -46,7 +46,7 @@ const InputSlider: React.FC<RangeType> = ({ setValue}) => {
 
   return (
     <div className="pt-2">
-      <div className="relative h-2">
+      <div className="relative h-2 max-md:w-[172px] md:mx-0 mx-auto">
         {/* Range track */}
         <div
           className="absolute h-2 w-full rounded-full"

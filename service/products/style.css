@@ -37,3 +37,13 @@
     background: #46A358;
     transition: all 0.3s ease-in-out;
  }
+
+
+ @media (max-width:768px){
+   .products-part{
+        width: 100%;
+    }
+    .products{
+        margin-bottom: 15px;
+    }
+ }

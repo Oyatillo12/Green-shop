@@ -15,7 +15,7 @@ const CloseIcon = () => {
     )
 }
 
-const LogoIcon = ({className}:{className:string}) => {
+const LogoIcon = ({ className }: { className: string }) => {
     return (
         <svg className={className} width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M17.15 0C7.67748 0 0 7.67746 0 17.15C0 26.0201 6.73548 33.3175 15.3711 34.207C14.8496 29.9134 15.0436 26.4001 15.7067 23.5135C15.3347 21.7225 14.4898 19.0703 12.5734 17.1864C12.5734 17.1864 13.8348 19.0784 14.5181 21.6214C14.5181 21.6255 14.5221 21.6295 14.5221 21.6335C14.5949 21.9044 14.6596 22.1793 14.7162 22.4623C14.7283 22.527 14.7404 22.5917 14.7526 22.6604C14.8051 22.9515 14.8536 23.2426 14.886 23.5418C5.19513 22.3532 3.12921 13.6569 3.35561 10.3781C13.665 10.9482 15.7754 17.8292 16.0827 22.0985C19.4585 11.0412 30.1843 10.4024 31.0697 10.3781C31.4538 18.8763 25.1509 25.5026 17.6149 26.0807C17.6635 25.8503 17.7201 25.6198 17.7767 25.3934C17.7928 25.3247 17.813 25.26 17.8333 25.1913C17.8777 25.0296 17.9222 24.8679 17.9748 24.7061C17.995 24.6374 18.0192 24.5646 18.0394 24.4959C18.096 24.318 18.1567 24.1442 18.2173 23.9663C18.2335 23.9259 18.2456 23.8854 18.2618 23.845C18.3386 23.6348 18.4195 23.4326 18.5003 23.2305C18.5084 23.2143 18.5125 23.1941 18.5205 23.1779C18.5205 23.1779 18.5205 23.1779 18.5246 23.1779C20.4571 18.5043 24.0229 15.4439 24.0229 15.4439C17.0247 19.4868 15.8441 29.9983 15.6582 34.2231C16.1514 34.2676 16.6446 34.2999 17.15 34.2999C26.6225 34.2999 34.3 26.6225 34.3 17.15C34.3 7.67746 26.6225 0 17.15 0Z" fill="#46A358" />
@@ -428,4 +428,25 @@ const UnionIcon = () => {
     )
 }
 
-export {FacebookIcon, InstagramIcon, TwitterIcon, LinkedinIcon, UnionIcon, TelIcon, EmailIcon, LocationIcon, LogIcon, CloseIcon, LogoIcon, LikeIcon, BasketIcon, ArrowIcon, FooterFirstIcon, FooterSecondIcon, FooterThirdIcon }
+const FilterIcon = () => {
+    return (
+        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7.2144 13.3926H1.28125" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path fillRule="evenodd" clipRule="evenodd" d="M10.9375 13.3934C10.9375 15.2651 11.5617 15.8884 13.4325 15.8884C15.3033 15.8884 15.9274 15.2651 15.9274 13.3934C15.9274 11.5218 15.3033 10.8984 13.4325 10.8984C11.5617 10.8984 10.9375 11.5218 10.9375 13.3934Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M9.99512 3.77801H15.9274" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path fillRule="evenodd" clipRule="evenodd" d="M6.27202 3.77677C6.27202 1.90595 5.64786 1.2818 3.77704 1.2818C1.9054 1.2818 1.28125 1.90595 1.28125 3.77677C1.28125 5.64841 1.9054 6.27175 3.77704 6.27175C5.64786 6.27175 6.27202 5.64841 6.27202 3.77677Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+    )
+}
+
+const DeleteIcon = () => {
+    return (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18.8892 9.55408C18.8892 17.5731 20.0435 21.1979 12.2797 21.1979C4.5149 21.1979 5.693 17.5731 5.693 9.55408" stroke="#727272" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M20.3651 6.47979H4.2146" stroke="#727272" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M15.7148 6.47979C15.7148 6.47979 16.2434 2.71408 12.2891 2.71408C8.33578 2.71408 8.86435 6.47979 8.86435 6.47979" stroke="#727272" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+    )
+}
+
+export { DeleteIcon, FilterIcon, FacebookIcon, InstagramIcon, TwitterIcon, LinkedinIcon, UnionIcon, TelIcon, EmailIcon, LocationIcon, LogIcon, CloseIcon, LogoIcon, LikeIcon, BasketIcon, ArrowIcon, FooterFirstIcon, FooterSecondIcon, FooterThirdIcon }

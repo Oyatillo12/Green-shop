@@ -13,24 +13,24 @@ import { Skeleton } from 'antd';
 export type ProductType = {
     basket?: boolean,
     category_id?: string,
-    cost?: number,
+    cost: number,
     discount?: number,
     image_url?: string[],
     liked?: boolean,
     product_description?: string,
-    product_id?: string,
+    product_id: string,
     product_name?: string,
     product_status?: string,
     short_description?: string,
     size?: string[],
-    tags?: string[]
+    tags?: string[],
+    count?: number,
 }
 
 type TagsType = {
     href?: string,
     title?: string
 }
-
 
 
 const Products = () => {
@@ -41,7 +41,7 @@ const Products = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [perPage, setPerPage] = useState<number>(9);
     const [screenWidth, setScreenWidth] = useState(0);
-    const { data = [], isPending } = useQuery({
+    const { data = [] } = useQuery({
         queryKey: ['products', categoryId, size, tags, minPrice, maxPrice],
         queryFn: () => axios.get('/products', {
             params: {
@@ -56,52 +56,43 @@ const Products = () => {
             }
         }).then(res => res.data.products ? res.data.products : []),
     });
-    const totalPages = Math.ceil(data.length / perPage)
-    const startIndex = (currentPage - 1) * perPage
-    const currentProducts = data.slice(startIndex, startIndex + perPage);
+    const totalPages = Math.ceil(products.length / perPage);
+    const startIndex = (currentPage - 1) * perPage;
+    const currentProducts = products.slice(startIndex, startIndex + perPage);
 
     useEffect(() => {
         if (typeof window !== "undefined") {
-            setScreenWidth(window.innerWidth); 
+            setScreenWidth(window.innerWidth);
 
             const handleResize = () => {
                 setScreenWidth(window.innerWidth);
             };
-
-            // Add event listener
             window.addEventListener("resize", handleResize);
-
-            // Cleanup listener on unmount
             return () => window.removeEventListener("resize", handleResize);
         }
     }, []);
 
     useEffect(() => {
         const handleResize = () => {
-            setScreenWidth(window.innerWidth); // Update screen width
+            setScreenWidth(window.innerWidth); 
         };
 
-        // Add event listener
         window.addEventListener("resize", handleResize);
 
-        // Cleanup event listener on unmount
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    // Update products per page based on screen width
     useEffect(() => {
-        if (screenWidth <= 1075) {
+        if (screenWidth <= 768) {
+            setPerPage(9);
+        }
+        else if (screenWidth <= 1075) {
             setPerPage(6);
-        } else {
+        }
+        else {
             setPerPage(9);
         }
     }, [screenWidth]);
-
-
-
-
-
-
 
     const tagsList: TagsType[] = [
         {
@@ -123,6 +114,7 @@ const Products = () => {
                 min: Math.min(...data.map((product: ProductType) => product.cost)),
                 max: Math.max(...data.map((product: ProductType) => product.cost)),
             });
+            setProducts(data); 
         }
     }, [JSON.stringify(data)])
 
@@ -152,8 +144,8 @@ const Products = () => {
                 </div>
                 <SortingDropdown handleSortChange={handeChangeSort} sortOption={sortOption} />
             </div>
-            <div className='products flex sm:!space-x-14 flex-wrap items-center justify-between'>
-                {isPending ? Array(currentProducts.length).fill(0).map((_, index) => (
+            <div className='products flex  md:!space-x-14 flex-wrap items-center justify-between'>
+                {products.length < 0 ? Array(perPage).fill(0).map((_, index) => (
                     <Skeleton key={index} loading active style={{ width: "250px", height: "319px" }} />
                 )) : currentProducts.length
                     ? currentProducts.map((product: ProductType, index: number) => (

@@ -10,7 +10,7 @@ interface SortType {
 const SortingDropdown:React.FC<SortType> = ({handleSortChange, sortOption}) => {
 
     return (
-        <div>
+        <div className="sm:block hidden">
             <label htmlFor="sorting">Sort by: </label>
             <select
                 id="sorting"

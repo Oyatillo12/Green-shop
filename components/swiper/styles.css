@@ -1,16 +1,11 @@
-.swiper {
-  background: #000;
+.swiper-home {
   height: 450px;
   z-index: 10;
   border-radius: 12px;
-}
+  background: #FBFBFB;
 
-.mySwiper {
-  z-index: 10;
-  border-radius: 12px;
 }
-
-.swiper-slide {
+.swiper-home  .swiper-slide-home {
   border-radius: 12px;
   font-size: 18px;
   display: flex;
@@ -20,37 +15,14 @@
   position: relative;
 }
 
-.parallax-bg {
-  position: absolute;
-  left: 0;
-  top: 0;
-  background: #FBFBFB;
-  height: 100%;
-  width: 130%;
-}
-
-.swiper-slide .title {
-  font-size: 41px;
-  font-weight: 300;
-}
-
-.swiper-slide .subtitle {
-  font-size: 21px;
-}
-
-.swiper-slide .text {
-  font-size: 14px;
-  max-width: 400px;
-  line-height: 1.3;
-}
 
 @media (max-width: 768px) {
-  .swiper-slide {
+  .swiper-slide-home {
     justify-content: start;
     padding: 24px;
   }
 
-  .swiper {
+  .swiper-home {
     height: auto;
   }
 }
