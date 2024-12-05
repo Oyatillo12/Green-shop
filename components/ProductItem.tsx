@@ -55,7 +55,7 @@ const ProductItem: React.FC<{ product: ProductType }> = ({ product }) => {
     return (
         <>
             <Toaster position='top-center' reverseOrder={false} />
-            <div onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} className='md:w-[250px]   sm:w-[180px] w-[160px] rounded-lg overflow-hidden relative' >
+            <div onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} className='md:w-[250px] product-item   sm:w-[180px] w-[160px] rounded-lg overflow-hidden relative' >
                 <div onClick={() => router.push(`/shop/${product.product_id}`)} style={{ backgroundColor: "#FBFBFB", }}>
                     <Image priority style={{ width: "100%", height: "auto", objectFit: "cover" }} src={product.image_url ? product.image_url[0] : "/logo.svg"} alt={product.product_name ? product.product_name : "product img"} width={250} height={250} />
                 </div>

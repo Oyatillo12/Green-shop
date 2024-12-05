@@ -11,7 +11,7 @@ export const useAxios = () => {
 
     const api = useMemo(() => {
         const instance = axios.create({
-            baseURL: APi,
+            baseURL: "http://3.125.43.204:7777/v1",
         });
 
         // Attach Authorization header
