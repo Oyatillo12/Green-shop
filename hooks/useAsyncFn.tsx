@@ -1,4 +1,4 @@
-import { AuthType } from '@/components/header/Header';
+import { AuthType } from '@/types'; 
 import { useAxios } from './useAxios';
 import { SetStateAction } from 'react';
 
