@@ -52,7 +52,7 @@ const Category = () => {
 
                         <Skeleton loading active style={{ width: "100%", height: "100px" }} />
 
-                        <Skeleton.Image className="md:block hidden" active style={{ width: "100%", height: "470px" }} />
+                        <Skeleton.Image className=" img-category" active style={{ width: "100%", height: "470px" }} />
                     </div>
                 ) : <div className=" category-part ">
                     <h2 style={{ paddingLeft: "18px" }} className="text-[18px] font-bold text-[#3D3D3D]  mb-2 ">Categories</h2>
