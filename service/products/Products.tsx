@@ -19,7 +19,7 @@ export type ProductType = {
     liked?: boolean,
     product_description?: string,
     product_id: string,
-    product_name?: string,
+    product_name: string,
     product_status?: string,
     short_description?: string,
     size?: string[],
@@ -35,7 +35,7 @@ type TagsType = {
 
 const Products = () => {
     const axios = useAxios();
-    const { categoryId, size, tags, setTags, minPrice, maxPrice, setProducstPrice } = useContext(Context);
+    const { categoryId, size, tags, setTags, minPrice, maxPrice, setProducstPrice,  } = useContext(Context);
     const [products, setProducts] = useState<ProductType[] | []>([])
     const [sortOption, setSortOption] = useState("default");
     const [currentPage, setCurrentPage] = useState(1)
@@ -56,6 +56,7 @@ const Products = () => {
             }
         }).then(res => res.data.products ? res.data.products : []),
     });
+    
     const totalPages = Math.ceil(products.length / perPage);
     const startIndex = (currentPage - 1) * perPage;
     const currentProducts = products.slice(startIndex, startIndex + perPage);

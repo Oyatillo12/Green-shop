@@ -102,7 +102,7 @@ export const ContextProvider = ({ children }: { children: ReactNode }) => {
     }, []);
 
     return (
-        <Context.Provider value={{ userInfo, setUserInfo, refreshToken, setRefreshToken, products, setProducts, prductsPrice, accessToken, setAccessToken, setProducstPrice, maxPrice, setMaxPrice, minPrice, setMinPrice, tags, setTags, categoryId, setCategoryId, size, setSize }}>
+        <Context.Provider value={{userInfo, setUserInfo, refreshToken, setRefreshToken, products, setProducts, prductsPrice, accessToken, setAccessToken, setProducstPrice, maxPrice, setMaxPrice, minPrice, setMinPrice, tags, setTags, categoryId, setCategoryId, size, setSize }}>
             {children}
         </Context.Provider>
     );

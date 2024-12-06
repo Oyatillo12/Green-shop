@@ -20,6 +20,7 @@ import Menubtn from '../MenuBtn/Menubtn';
 import { AuthType, NavListType } from '@/types';
 import { useQuery } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
+import Products, { ProductType } from '@/service/products/Products';
 
 
 
@@ -27,14 +28,16 @@ const Header = () => {
     const fetching = useAxios();
     const pathname = usePathname();
     const router = useRouter();
+    const [searchValue, setSearchValue] = useState<string>("");
+    const [searchProducts, setSearchProducts] = useState<ProductType[] | []>([]);
     const [basketCount, setBasketCount] = useState<number>(0);
     const [isMenuBtnOpen, setIsMenuBtnOpen] = useState<boolean>(false);
-    const [saveEmail, setSaveEmail] = useState<string | undefined>("")
+    const [saveEmail, setSaveEmail] = useState<string | undefined>("");
     const [openLoginModal, setOpenLoginModal] = useState<boolean>(false);
     const [verifyValue, setVerifyValue] = useState<string>("");
     const [selectedAuth, setSelectedAuth] = useState<"login" | "register" | "verify" | "resetPassword" | "newPassword">('login');
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const { accessToken, setAccessToken, setRefreshToken, setUserInfo } = useContext(Context)
+    const { accessToken, setAccessToken, setRefreshToken, setUserInfo, } = useContext(Context)
     const navList: NavListType[] = [
         {
             id: 1,
@@ -165,6 +168,27 @@ const Header = () => {
         }
     }
 
+    const { data = [] } = useQuery({
+        queryKey: ['search_result',],
+        queryFn: () =>
+            fetching.get('/products', {
+                params: {
+                    page: 1,
+                    limit: 100,
+                },
+            }).then(res => res.data.products || []),
+    });
+
+    function handleSearchChange(e: React.ChangeEvent<HTMLInputElement>): void {
+        if (e.target.value.trim()) {
+            setTimeout(() => {
+                setSearchValue(e.target.value.toLocaleLowerCase());
+            }, 700)
+        }
+    }
+
+    const searchedProducts: ProductType[] | [] = searchValue.trim() !== "" ? data.filter((p: ProductType) => p.product_name.toLowerCase().includes(searchValue)) : [];
+
     return (
         <>
             <header className="flex items-center  border-b border-gray-200 px-4 md:px-6 py-4 max-w-[1200px] w-full mx-auto justify-between">
@@ -211,16 +235,29 @@ const Header = () => {
                             height={20}
                         />
                         <Input
+                            onChange={handleSearchChange}
                             extraStyle="w-full max-md:max-w-full md:w-auto"
                             name="search"
                             placeholder="Find your plants"
                             type="text"
                         />
+                        {searchValue && searchedProducts.length > 0 && (
+                            <div className="absolute z-50 w-full top-[40px] bg-white border border-gray-200 rounded-md shadow-lg mt-1 max-h-60 overflow-auto">
+                                {searchedProducts.map((product:ProductType) => (
+                                    <div onClick={() => {
+                                        router.push(`/shop/${product.product_id}`)
+                                        setSearchValue('')
+                                    }} key={product.product_id} className="p-2 hover:bg-gray-100 cursor-pointer">
+                                        {product.product_name}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </label>
 
                     <button onClick={() => {
-                        if(!accessToken || BaskedProducts.length == 0){
-                            setBasketCount(0); 
+                        if (!accessToken || BaskedProducts.length == 0) {
+                            setBasketCount(0);
                             toast.error("Your cart is empty");
                             return;
                         }

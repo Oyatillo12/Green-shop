@@ -11,23 +11,20 @@ export const useAxios = () => {
 
     const api = useMemo(() => {
         const instance = axios.create({
-            baseURL: "http://3.125.43.204:7777/v1",
+            baseURL: APi,
         });
 
-        // Attach Authorization header
         if (accessToken) {
             instance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
         }
 
-        // Request interceptor
         instance.interceptors.request.use(
             (config) => config,
             (error) => Promise.reject(error)
         );
 
-        // Response interceptor for token refresh
         instance.interceptors.response.use(
-            (response) => response, // Pass through successful responses
+            (response) => response, 
             async (error) => {
                 if (error.response?.status === 401 && refreshToken) {
                     try {
@@ -40,7 +37,7 @@ export const useAxios = () => {
                         error.config.headers['Authorization'] = `Bearer ${newAccessToken}`;
                         return instance(error.config);
                     } catch (refreshError) {
-                        console.error('Failed to refresh token:', refreshError);
+                        console.log('Failed to refresh token:', refreshError);
                         return Promise.reject(refreshError);
                     }
                 }
